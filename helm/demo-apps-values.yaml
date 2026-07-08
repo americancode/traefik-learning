@@ -1,0 +1,30 @@
+applications:
+  podinfo:
+    namespace: argocd
+    project: default
+    source:
+      repoURL: https://stefanprodan.github.io/podinfo
+      chart: podinfo
+      targetRevision: 6.8.0
+      helm:
+        values: |
+          replicaCount: 1
+          ingress:
+            enabled: true
+            className: traefik
+            annotations:
+              traefik.ingress.kubernetes.io/router.entrypoints: web
+            hosts:
+              - host: podinfo.127.0.0.1.nip.io
+                paths:
+                  - path: /
+                    pathType: Prefix
+    destination:
+      server: https://kubernetes.default.svc
+      namespace: demo
+    syncPolicy:
+      automated:
+        prune: true
+        selfHeal: true
+      syncOptions:
+        - CreateNamespace=true

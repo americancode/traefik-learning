@@ -1,0 +1,41 @@
+deployment:
+  kind: Deployment
+
+providers:
+  kubernetesCRD:
+    enabled: true
+  kubernetesIngress:
+    enabled: true
+  kubernetesGateway:
+    enabled: true
+
+gateway:
+  enabled: true
+  listeners:
+    web:
+      namespacePolicy:
+        from: All
+
+gatewayClass:
+  enabled: true
+
+service:
+  enabled: true
+  spec:
+    type: NodePort
+    externalTrafficPolicy: Local
+
+ports:
+  web:
+    nodePort: 30080
+    exposedPort: 80
+  websecure:
+    nodePort: 30443
+    exposedPort: 443
+
+ingressClass:
+  enabled: true
+  isDefaultClass: true
+
+additionalArguments:
+  - --api.dashboard=true

@@ -6,6 +6,10 @@ providers:
     enabled: true
   kubernetesIngress:
     enabled: true
+    publishedService:
+      enabled: false
+    ingressEndpoint:
+      ip: 127.0.0.1
   kubernetesGateway:
     enabled: true
 
